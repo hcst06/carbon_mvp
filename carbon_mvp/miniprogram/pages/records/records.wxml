@@ -1,0 +1,38 @@
+<view class="container">
+  <view class="header">
+    <text class="title">历史记录</text>
+    <text class="subtitle">查看您的出行记录</text>
+  </view>
+
+  <view class="records-list">
+    <view class="record-card" wx:for="{{records}}" wx:key="id">
+      <view class="record-header">
+        <text class="record-mode">{{item.mode_name}}</text>
+        <text class="record-date">{{item.created_at}}</text>
+      </view>
+      <view class="record-body">
+        <view class="record-item">
+          <text class="record-label">距离</text>
+          <text class="record-value">{{item.distance}} km</text>
+        </view>
+        <view class="record-item">
+          <text class="record-label">时间</text>
+          <text class="record-value">{{item.time}} min</text>
+        </view>
+        <view class="record-item">
+          <text class="record-label">减排量</text>
+          <text class="record-value text-primary">{{item.reduction}} g</text>
+        </view>
+        <view class="record-item">
+          <text class="record-label">积分</text>
+          <text class="record-value text-primary">{{item.points}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty" wx:if="{{records.length === 0}}">
+    <view class="empty-icon">📝</view>
+    <text class="empty-text">暂无历史记录</text>
+  </view>
+</view>

@@ -1,0 +1,104 @@
+<view class="container">
+  <view class="header">
+    <view class="user-info" wx:if="{{userInfo}}">
+      <view class="avatar">👤</view>
+      <view class="user-details">
+        <text class="username">{{userInfo.username}}</text>
+        <text class="points">总积分: {{userInfo.total_points || 0}}</text>
+      </view>
+    </view>
+    <view class="user-info" wx:else>
+      <view class="avatar">👤</view>
+      <view class="user-details">
+        <text class="username">未登录</text>
+        <text class="login-btn" bindtap="goToLogin">点击登录</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="hero-section">
+    <view class="hero-content">
+      <text class="hero-title">绿色出行，</text>
+      <text class="hero-title highlight">助力乡村振兴</text>
+      <text class="hero-subtitle">每一次绿色出行，都在为地球和乡村贡献力量</text>
+    </view>
+    <view class="hero-image">🌱</view>
+  </view>
+
+  <view class="stats-section">
+    <view class="stat-card">
+      <view class="stat-icon">🍃</view>
+      <text class="stat-value">{{stats.total_reduction || 0}}</text>
+      <text class="stat-label">总减排量(g)</text>
+    </view>
+    <view class="stat-card">
+      <view class="stat-icon">🏆</view>
+      <text class="stat-value">{{userInfo ? (userInfo.total_points || 0) : 0}}</text>
+      <text class="stat-label">总积分</text>
+    </view>
+    <view class="stat-card">
+      <view class="stat-icon">🚶</view>
+      <text class="stat-value">{{stats.total_trips || 0}}</text>
+      <text class="stat-label">出行次数</text>
+    </view>
+  </view>
+
+  <view class="features-section">
+    <text class="section-title">核心功能</text>
+    <view class="feature-grid">
+      <view class="feature-card" bindtap="goToCalculate">
+        <view class="feature-icon calculate">
+          <text>📊</text>
+        </view>
+        <text class="feature-title">碳积分计算</text>
+        <text class="feature-desc">记录出行，计算碳减排</text>
+      </view>
+      <view class="feature-card" bindtap="goToTrack">
+        <view class="feature-icon track">
+          <text>🗺️</text>
+        </view>
+        <text class="feature-title">出行轨迹</text>
+        <text class="feature-desc">实时记录绿色出行轨迹</text>
+      </view>
+      <view class="feature-card" bindtap="goToExchange">
+        <view class="feature-icon exchange">
+          <text>💰</text>
+        </view>
+        <text class="feature-title">积分兑换</text>
+        <text class="feature-desc">用积分兑换农产品</text>
+      </view>
+      <view class="feature-card" bindtap="goToStats">
+        <view class="feature-icon stats">
+          <text>📈</text>
+        </view>
+        <text class="feature-title">数据统计</text>
+        <text class="feature-desc">查看碳减排统计数据</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="news-section">
+    <text class="section-title">环保资讯</text>
+    <view class="news-card">
+      <view class="news-image">🌍</view>
+      <view class="news-content">
+        <text class="news-title">如何通过绿色出行减少碳排放</text>
+        <text class="news-desc">了解绿色出行的重要性和实践方法</text>
+        <text class="news-date">2024-03-20</text>
+      </view>
+    </view>
+    <view class="news-card">
+      <view class="news-image">🏞️</view>
+      <view class="news-content">
+        <text class="news-title">乡村振兴与环保的关系</text>
+        <text class="news-desc">绿色发展助力乡村经济增长</text>
+        <text class="news-date">2024-03-15</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer">
+    <text class="footer-text">碳行益农 © 2024</text>
+    <text class="footer-subtext">让绿色出行成为生活方式</text>
+  </view>
+</view>

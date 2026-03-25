@@ -1,0 +1,58 @@
+<view class="container">
+  <view class="card">
+    <view class="title">
+      <view class="icon">📊</view>
+      <text>碳积分计算</text>
+    </view>
+
+    <view class="form">
+      <view class="input-group">
+        <text class="label">距离 (km)</text>
+        <input 
+          class="input" 
+          type="number" 
+          placeholder="请输入距离" 
+          value="{{distance}}"
+          bindinput="bindDistanceInput"
+        />
+      </view>
+
+      <view class="input-group">
+        <text class="label">时间 (min)</text>
+        <input 
+          class="input" 
+          type="number" 
+          placeholder="请输入时间" 
+          value="{{time}}"
+          bindinput="bindTimeInput"
+        />
+      </view>
+
+      <view class="input-group">
+        <text class="label">出行方式</text>
+        <picker range="{{modes}}" value="{{modeIndex}}" bindchange="bindModeChange">
+          <view class="picker">
+            {{modes[modeIndex]}}
+          </view>
+        </picker>
+      </view>
+
+      <button class="calculate-btn" bindtap="calculate">计算碳积分</button>
+    </view>
+
+    <view class="result" wx:if="{{result}}">
+      <view class="result-item">
+        <text class="result-label">减排量</text>
+        <text class="result-value">{{result.reduction_g}} g</text>
+      </view>
+      <view class="result-item">
+        <text class="result-label">获得积分</text>
+        <text class="result-value text-primary">{{result.points}}</text>
+      </view>
+      <view class="blockchain-info" wx:if="{{result.block_hash}}">
+        <text class="blockchain-label">区块链哈希</text>
+        <text class="blockchain-hash">{{result.block_hash}}</text>
+      </view>
+    </view>
+  </view>
+</view>

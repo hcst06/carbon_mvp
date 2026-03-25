@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>碳行益农 - 绿色出行碳积分助农平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4ade80',
+                        secondary: '#16a34a',
+                        accent: '#059669',
+                        neutral: '#f0fdf4',
+                        dark: '#065f46'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .card-hover {
+                @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1;
+            }
+        }
+    </style>
+</head>
+<body class="bg-neutral min-h-screen">
+    <!-- 导航栏 -->
+    <nav class="bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fa fa-leaf text-primary text-2xl"></i>
+                <h1 class="text-xl font-bold text-dark">碳行益农</h1>
+            </div>
+            <div class="hidden md:flex items-center space-x-6">
+                <a href="#" class="text-dark hover:text-primary transition-colors">首页</a>
+                <a href="#calculate" class="text-dark hover:text-primary transition-colors">碳积分计算</a>
+                <a href="#records" class="text-dark hover:text-primary transition-colors">历史记录</a>
+                <a href="#exchange" class="text-dark hover:text-primary transition-colors">积分兑换</a>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button id="login-btn" class="text-dark hover:text-primary transition-colors" onclick="openLoginModal()">
+                    <i class="fa fa-sign-in mr-1"></i> 登录
+                </button>
+                <button id="register-btn" class="text-dark hover:text-primary transition-colors" onclick="openRegisterModal()">
+                    <i class="fa fa-user-plus mr-1"></i> 注册
+                </button>
+                <div id="user-info" class="hidden flex items-center space-x-4">
+                    <span id="username" class="text-dark"></span>
+                    <span id="user-points" class="text-primary font-bold"></span>
+                    <button onclick="openChangePasswordModal()" class="text-dark hover:text-primary transition-colors">
+                        <i class="fa fa-key"></i> 修改密码
+                    </button>
+                    <button onclick="logout()" class="text-dark hover:text-primary transition-colors">
+                        <i class="fa fa-sign-out"></i> 登出
+                    </button>
+                </div>
+            </div>
+            <button class="md:hidden text-dark">
+                <i class="fa fa-bars text-xl"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 登录模态框 -->
+    <div id="login-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-xl p-6 md:p-8 max-w-md w-full">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-dark">用户登录</h3>
+                <button onclick="closeLoginModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label for="login-username" class="block text-gray-700 mb-2 font-medium">
+                        用户名
+                    </label>
+                    <input 
+                        type="text" 
+                        id="login-username" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                        placeholder="请输入用户名"
+                    >
+                </div>
+                <div>
+                    <label for="login-password" class="block text-gray-700 mb-2 font-medium">
+                        密码
+                    </label>
+                    <input 
+                        type="password" 
+                        id="login-password" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                        placeholder="请输入密码"
+                    >
+                </div>
+                <button 
+                    type="button" 
+                    onclick="login()" 
+                    class="w-full bg-primary hover:bg-secondary text-white py-3 rounded-lg font-medium transition-colors shadow-md flex items-center justify-center"
+                >
+                    <i class="fa fa-sign-in mr-2"></i>
+                    登录
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 注册模态框 -->
+    <div id="register-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-xl p-6 md:p-8 max-w-md w-full">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-dark">用户注册</h3>
+                <button onclick="closeRegisterModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="register-form" class="space-y-4">
+                <div>
+                    <label for="register-username" class="block text-gray-700 mb-2 font-medium">
+                        用户名
+                    </label>
+                    <input 
+                        type="text" 
+                        id="register-username" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                        placeholder="请输入用户名"
+                    >
+                </div>
+                <div>
+                    <label for="register-email" class="block text-gray-700 mb-2 font-medium">
+                        邮箱
+                    </label>
+                    <input 
+                        type="email" 
+                        id="register-email" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                        placeholder="请输入邮箱"
+                    >
+                </div>
+                <div>
+                    <label for="register-password" class="block text-gray-700 mb-2 font-medium">
+                        密码
+                    </label>
+                    <input 
+                        type="password" 
+                        id="register-password" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                        placeholder="请输入密码"
+                    >
+                </div>
+                <button 
+                    type="button" 
+                    onclick="register()" 
+                    class="w-full bg-primary hover:bg-secondary text-white py-3 rounded-lg font-medium transition-colors shadow-md flex items-center justify-center"
+                >
+                    <i class="fa fa-user-plus mr-2"></i>
+                    注册
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 修改密码模态框 -->
+    <div id="change-password-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl shadow-xl p-6 md:p-8 max-w-md w-full">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-dark">修改密码</h3>
+                <button onclick="closeChangePasswordModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+            </div>
+            <form id="change-password-form" class="space-y-4">
+                <div>
+                    <label for="old-password" class="block text-gray-700 mb-2 font-medium">
+                        旧密码
+                    </label>
+                    <input 
+                        type="password" 
+                        id="old-password" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                        placeholder="请输入旧密码"
+                    >
+                </div>
+                <div>
+                    <label for="new-password" class="block text-gray-700 mb-2 font-medium">
+                        新密码
+                    </label>
+                    <input 
+                        type="password" 
+                        id="new-password" 
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                        placeholder="请输入新密码"
+                    >
+                </div>
+                <button 
+                    type="button" 
+                    onclick="changePassword()" 
+                    class="w-full bg-primary hover:bg-secondary text-white py-3 rounded-lg font-medium transition-colors shadow-md flex items-center justify-center"
+                >
+                    <i class="fa fa-key mr-2"></i>
+                    修改密码
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- 英雄区域 -->
+    <section class="bg-gradient-to-br from-primary/10 to-secondary/10 py-12 md:py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-[clamp(1.5rem,3vw,2.5rem)] font-bold text-dark mb-4 text-shadow">
+                绿色出行，助力乡村振兴
+            </h2>
+            <p class="text-gray-600 max-w-2xl mx-auto mb-8">
+                将您的绿色出行行为量化为碳减排数据，转化为积分，用于兑换农产品，实现环保与助农的完美结合。
+            </p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <a href="#calculate" class="bg-primary hover:bg-secondary text-white px-6 py-3 rounded-full font-medium transition-colors shadow-md">
+                    开始计算
+                </a>
+                <a href="#exchange" class="bg-white hover:bg-gray-100 text-primary border border-primary px-6 py-3 rounded-full font-medium transition-colors shadow-md">
+                    查看兑换
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 碳积分计算 -->
+    <section id="calculate" class="py-12">
+        <div class="container mx-auto px-4">
+            <div class="max-w-2xl mx-auto bg-white rounded-xl shadow-md p-6 md:p-8">
+                <h3 class="text-xl font-bold text-dark mb-6 flex items-center">
+                    <i class="fa fa-calculator text-primary mr-2"></i>
+                    碳积分计算
+                </h3>
+                <form id="calculate-form" class="space-y-4">
+                    <div>
+                        <label for="distance" class="block text-gray-700 mb-2 font-medium">
+                            距离 (km)
+                        </label>
+                        <input 
+                            type="number" 
+                            id="distance" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                            placeholder="请输入距离"
+                            step="0.1"
+                            min="0"
+                        >
+                    </div>
+                    <div>
+                        <label for="time" class="block text-gray-700 mb-2 font-medium">
+                            时间 (min)
+                        </label>
+                        <input 
+                            type="number" 
+                            id="time" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                            placeholder="请输入时间"
+                            step="1"
+                            min="1"
+                        >
+                    </div>
+                    <div>
+                        <label for="mode" class="block text-gray-700 mb-2 font-medium">
+                            出行方式
+                        </label>
+                        <select 
+                            id="mode" 
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition-colors"
+                        >
+                            <option value="walk">步行</option>
+                            <option value="bike">骑行</option>
+                            <option value="bus">公交</option>
+                            <option value="metro">地铁</option>
+                        </select>
+                    </div>
+                    <button 
+                        type="button" 
+                        onclick="calculate()" 
+                        class="w-full bg-primary hover:bg-secondary text-white py-3 rounded-lg font-medium transition-colors shadow-md flex items-center justify-center"
+                    >
+                        <i class="fa fa-arrow-right mr-2"></i>
+                        计算碳积分
+                    </button>
+                </form>
+                <div id="result" class="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg hidden">
+                    <!-- 结果将在这里显示 -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 历史记录 -->
+    <section id="records" class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h3 class="text-xl font-bold text-dark mb-6 flex items-center">
+                <i class="fa fa-history text-primary mr-2"></i>
+                历史记录
+            </h3>
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <button 
+                    onclick="loadRecords()" 
+                    class="mb-4 bg-white hover:bg-gray-100 text-primary border border-primary px-4 py-2 rounded-lg font-medium transition-colors flex items-center"
+                >
+                    <i class="fa fa-refresh mr-2"></i>
+                    加载历史记录
+                </button>
+                <div id="records-container" class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    ID
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    距离 (km)
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    出行方式
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    时间 (min)
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    减排量 (g)
+                                </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                    积分
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody id="records-body" class="bg-white divide-y divide-gray-200">
+                            <!-- 记录将在这里显示 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 数据统计 -->
+    <section id="stats" class="py-12 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h3 class="text-xl font-bold text-dark mb-6 flex items-center">
+                <i class="fa fa-bar-chart text-primary mr-2"></i>
+                数据统计
+            </h3>
+            <div class="bg-white rounded-xl shadow-md p-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                        <h4 class="text-gray-600 mb-2">总减排量</h4>
+                        <p id="total-reduction" class="text-2xl font-bold text-dark">0 g</p>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                        <h4 class="text-gray-600 mb-2">总积分</h4>
+                        <p id="total-points" class="text-2xl font-bold text-primary">0</p>
+                    </div>
+                    <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                        <h4 class="text-gray-600 mb-2">出行次数</h4>
+                        <p id="total-trips" class="text-2xl font-bold text-dark">0</p>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                        <h4 class="text-gray-600 mb-2">平均减排</h4>
+                        <p id="average-reduction" class="text-2xl font-bold text-dark">0 g</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <h4 class="text-lg font-medium text-dark mb-4">按出行方式统计</h4>
+                        <div class="h-64">
+                            <canvas id="mode-chart"></canvas>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="text-lg font-medium text-dark mb-4">最近7天减排趋势</h4>
+                        <div class="h-64">
+                            <canvas id="daily-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <button onclick="loadStats()" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center">
+                        <i class="fa fa-refresh mr-2"></i>
+                        刷新统计数据
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 积分兑换 -->
+    <section id="exchange" class="py-12">
+        <div class="container mx-auto px-4">
+            <h3 class="text-xl font-bold text-dark mb-6 flex items-center">
+                <i class="fa fa-gift text-primary mr-2"></i>
+                积分兑换
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- 农产品卡片 1 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-48 bg-gray-200 flex items-center justify-center">
+                        <i class="fa fa-apple text-4xl text-gray-400"></i>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-dark mb-2">有机苹果</h4>
+                        <p class="text-gray-600 text-sm mb-4">来自山东烟台的有机苹果，清脆甜美</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold">100 积分</span>
+                            <button onclick="exchangeProduct(1)" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                                兑换
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- 农产品卡片 2 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-48 bg-gray-200 flex items-center justify-center">
+                        <i class="fa fa-lemon-o text-4xl text-gray-400"></i>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-dark mb-2">新鲜柠檬</h4>
+                        <p class="text-gray-600 text-sm mb-4">四川安岳柠檬，富含维生素C</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold">80 积分</span>
+                            <button onclick="exchangeProduct(2)" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                                兑换
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- 农产品卡片 3 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover">
+                    <div class="h-48 bg-gray-200 flex items-center justify-center">
+                        <i class="fa fa-coffee text-4xl text-gray-400"></i>
+                    </div>
+                    <div class="p-4">
+                        <h4 class="font-bold text-dark mb-2">有机茶叶</h4>
+                        <p class="text-gray-600 text-sm mb-4">福建武夷山有机茶叶，清香醇厚</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-primary font-bold">150 积分</span>
+                            <button onclick="exchangeProduct(3)" class="bg-primary hover:bg-secondary text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                                兑换
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="bg-dark text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-6 md:mb-0">
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fa fa-leaf text-primary text-2xl"></i>
+                        <h2 class="text-xl font-bold">碳行益农</h2>
+                    </div>
+                    <p class="text-gray-400 max-w-md">
+                        碳行益农通过技术手段将个人绿色行为转化为可量化、可交易的价值，实现环保激励与助农增收的双重目标。
+                    </p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h3 class="font-bold mb-4">快速链接</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-400 hover:text-primary transition-colors">首页</a></li>
+                            <li><a href="#calculate" class="text-gray-400 hover:text-primary transition-colors">碳积分计算</a></li>
+                            <li><a href="#records" class="text-gray-400 hover:text-primary transition-colors">历史记录</a></li>
+                            <li><a href="#exchange" class="text-gray-400 hover:text-primary transition-colors">积分兑换</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-bold mb-4">联系我们</h3>
+                        <ul class="space-y-2">
+                            <li class="flex items-center">
+                                <i class="fa fa-envelope mr-2 text-primary"></i>
+                                <span class="text-gray-400">contact@tanxingyinong.com</span>
+                            </li>
+                            <li class="flex items-center">
+                                <i class="fa fa-phone mr-2 text-primary"></i>
+                                <span class="text-gray-400">400-123-4567</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="font-bold mb-4">关注我们</h3>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                                <i class="fa fa-weixin text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                                <i class="fa fa-weibo text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                                <i class="fa fa-qq text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>© 2024 碳行益农. 保留所有权利.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 全局变量
+        let currentUser = null;
+
+        // 页面加载完成后初始化
+        window.addEventListener('DOMContentLoaded', function() {
+            // 检查本地存储中的用户信息
+            const userInfo = localStorage.getItem('userInfo');
+            if (userInfo) {
+                currentUser = JSON.parse(userInfo);
+                updateUserInfo();
+            }
+        });
+
+        // 打开登录模态框
+        function openLoginModal() {
+            document.getElementById('login-modal').classList.remove('hidden');
+        }
+
+        // 关闭登录模态框
+        function closeLoginModal() {
+            document.getElementById('login-modal').classList.add('hidden');
+        }
+
+        // 打开注册模态框
+        function openRegisterModal() {
+            document.getElementById('register-modal').classList.remove('hidden');
+        }
+
+        // 关闭注册模态框
+        function closeRegisterModal() {
+            document.getElementById('register-modal').classList.add('hidden');
+        }
+
+        // 打开修改密码模态框
+        function openChangePasswordModal() {
+            document.getElementById('change-password-modal').classList.remove('hidden');
+        }
+
+        // 关闭修改密码模态框
+        function closeChangePasswordModal() {
+            document.getElementById('change-password-modal').classList.add('hidden');
+        }
+
+        // 用户注册
+        function register() {
+            const username = document.getElementById('register-username').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+
+            if (!username || !email || !password) {
+                alert('请填写完整的注册信息');
+                return;
+            }
+
+            fetch('/register', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    username: username,
+                    email: email,
+                    password: password
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.error) {
+                    alert(data.error);
+                } else {
+                    alert('注册成功，请登录');
+                    closeRegisterModal();
+                }
+            })
+            .catch(error => {
+                alert('注册失败，请稍后重试');
+            });
+        }
+
+        // 用户登录
+        function login() {
+            const username = document.getElementById('login-username').value;
+            const password = document.getElementById('login-password').value;
+
+            if (!username || !password) {
+                alert('请填写完整的登录信息');
+                return;
+            }
+
+            fetch('/login', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.error) {
+                    alert(data.error);
+                } else {
+                    currentUser = data;
+                    localStorage.setItem('userInfo', JSON.stringify(data));
+                    updateUserInfo();
+                    closeLoginModal();
+                }
+            })
+            .catch(error => {
+                alert('登录失败，请稍后重试');
+            });
+        }
+
+        // 用户登出
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('userInfo');
+            updateUserInfo();
+        }
+
+        // 更新用户信息
+        function updateUserInfo() {
+            const userInfoDiv = document.getElementById('user-info');
+            const loginBtn = document.getElementById('login-btn');
+            const registerBtn = document.getElementById('register-btn');
+            const usernameSpan = document.getElementById('username');
+            const userPointsSpan = document.getElementById('user-points');
+
+            if (currentUser) {
+                userInfoDiv.classList.remove('hidden');
+                loginBtn.classList.add('hidden');
+                registerBtn.classList.add('hidden');
+                usernameSpan.textContent = currentUser.username;
+                userPointsSpan.textContent = `积分: ${currentUser.total_points}`;
+            } else {
+                userInfoDiv.classList.add('hidden');
+                loginBtn.classList.remove('hidden');
+                registerBtn.classList.remove('hidden');
+            }
+        }
+
+        // 计算碳积分
+        function calculate() {
+            if (!currentUser) {
+                alert('请先登录');
+                openLoginModal();
+                return;
+            }
+
+            const distance = parseFloat(document.getElementById('distance').value);
+            const time = parseFloat(document.getElementById('time').value);
+            const mode = document.getElementById('mode').value;
+
+            if (!distance || !time) {
+                showResult('请填写完整的距离和时间信息', 'error');
+                return;
+            }
+
+            fetch('/calculate', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    user_id: currentUser.id,
+                    distance: distance,
+                    time: time,
+                    mode: mode
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.error) {
+                    showResult(data.error, 'error');
+                } else {
+                    // 更新用户积分
+                    currentUser.total_points += data.points;
+                    localStorage.setItem('userInfo', JSON.stringify(currentUser));
+                    updateUserInfo();
+                    showResult(`减排：${data.reduction_g} g，积分：${data.points}，区块哈希：${data.block_hash}`, 'success');
+                }
+            })
+            .catch(error => {
+                showResult('计算失败，请稍后重试', 'error');
+            });
+        }
+
+        // 显示结果
+        function showResult(message, type) {
+            const resultDiv = document.getElementById('result');
+            resultDiv.classList.remove('hidden');
+            
+            if (type === 'error') {
+                resultDiv.className = 'mt-6 p-4 bg-red-50 border border-red-200 rounded-lg';
+            } else {
+                resultDiv.className = 'mt-6 p-4 bg-green-50 border border-green-200 rounded-lg';
+            }
+            
+            resultDiv.innerHTML = `<p class="text-gray-700">${message}</p>`;
+        }
+
+        // 加载历史记录
+        function loadRecords() {
+            if (!currentUser) {
+                alert('请先登录');
+                openLoginModal();
+                return;
+            }
+
+            const recordsBody = document.getElementById('records-body');
+            recordsBody.innerHTML = '<tr><td colspan="6" class="px-6 py-4 text-center text-gray-500">加载中...</td></tr>';
+
+            fetch(`/records/${currentUser.id}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.length === 0) {
+                    recordsBody.innerHTML = '<tr><td colspan="6" class="px-6 py-4 text-center text-gray-500">暂无历史记录</td></tr>';
+                    return;
+                }
+
+                let html = '';
+                data.forEach(record => {
+                    const [id, user_id, distance, mode, time, reduction, points, created_at] = record;
+                    const modeMap = {
+                        'walk': '步行',
+                        'bike': '骑行',
+                        'bus': '公交',
+                        'metro': '地铁'
+                    };
+                    
+                    html += `
+                        <tr class="hover:bg-gray-50 transition-colors">
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">${id}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${distance}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${modeMap[mode] || mode}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${time}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${reduction}</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-primary">${points}</td>
+                        </tr>
+                    `;
+                });
+                
+                recordsBody.innerHTML = html;
+            })
+            .catch(error => {
+                recordsBody.innerHTML = '<tr><td colspan="6" class="px-6 py-4 text-center text-red-500">加载失败，请稍后重试</td></tr>';
+            });
+        }
+
+        // 兑换产品
+        function exchangeProduct(productId) {
+            if (!currentUser) {
+                alert('请先登录');
+                openLoginModal();
+                return;
+            }
+
+            fetch('/exchange', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    user_id: currentUser.id,
+                    product_id: productId
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.error) {
+                    alert(data.error);
+                } else {
+                    alert('兑换成功');
+                    // 更新用户积分
+                    fetch(`/user/${currentUser.id}`)
+                    .then(res => res.json())
+                    .then(userData => {
+                        currentUser = userData;
+                        localStorage.setItem('userInfo', JSON.stringify(userData));
+                        updateUserInfo();
+                    });
+                }
+            })
+            .catch(error => {
+                alert('兑换失败，请稍后重试');
+            });
+        }
+
+        // 修改密码
+        function changePassword() {
+            if (!currentUser) {
+                alert('请先登录');
+                openLoginModal();
+                return;
+            }
+
+            const oldPassword = document.getElementById('old-password').value;
+            const newPassword = document.getElementById('new-password').value;
+
+            if (!oldPassword || !newPassword) {
+                alert('请填写完整的密码信息');
+                return;
+            }
+
+            fetch('/change-password', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    user_id: currentUser.id,
+                    old_password: oldPassword,
+                    new_password: newPassword
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.error) {
+                    alert(data.error);
+                } else {
+                    alert('密码修改成功');
+                    closeChangePasswordModal();
+                }
+            })
+            .catch(error => {
+                alert('密码修改失败，请稍后重试');
+            });
+        }
+
+        // 加载统计数据
+        function loadStats() {
+            if (!currentUser) {
+                alert('请先登录');
+                openLoginModal();
+                return;
+            }
+
+            fetch(`/stats/${currentUser.id}`)
+            .then(res => res.json())
+            .then(data => {
+                // 更新统计卡片
+                document.getElementById('total-reduction').textContent = `${data.total_reduction.toFixed(2)} g`;
+                document.getElementById('total-points').textContent = data.total_points.toFixed(2);
+                
+                // 计算出行次数和平均减排
+                let totalTrips = 0;
+                data.mode_stats.forEach(stat => {
+                    totalTrips += stat[3];
+                });
+                document.getElementById('total-trips').textContent = totalTrips;
+                
+                const averageReduction = totalTrips > 0 ? (data.total_reduction / totalTrips).toFixed(2) : 0;
+                document.getElementById('average-reduction').textContent = `${averageReduction} g`;
+
+                // 绘制出行方式统计图表
+                drawModeChart(data.mode_stats);
+                
+                // 绘制最近7天减排趋势图表
+                drawDailyChart(data.daily_stats);
+            })
+            .catch(error => {
+                alert('加载统计数据失败，请稍后重试');
+            });
+        }
+
+        // 绘制出行方式统计图表
+        function drawModeChart(modeStats) {
+            const ctx = document.getElementById('mode-chart').getContext('2d');
+            
+            // 销毁旧图表
+            if (window.modeChart) {
+                window.modeChart.destroy();
+            }
+
+            const modeMap = {
+                'walk': '步行',
+                'bike': '骑行',
+                'bus': '公交',
+                'metro': '地铁'
+            };
+
+            const labels = modeStats.map(stat => modeMap[stat[0]] || stat[0]);
+            const data = modeStats.map(stat => stat[1]);
+            const backgroundColor = [
+                'rgba(74, 222, 128, 0.6)',
+                'rgba(59, 130, 246, 0.6)',
+                'rgba(245, 158, 11, 0.6)',
+                'rgba(168, 85, 247, 0.6)'
+            ];
+
+            window.modeChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: backgroundColor,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // 绘制最近7天减排趋势图表
+        function drawDailyChart(dailyStats) {
+            const ctx = document.getElementById('daily-chart').getContext('2d');
+            
+            // 销毁旧图表
+            if (window.dailyChart) {
+                window.dailyChart.destroy();
+            }
+
+            const labels = dailyStats.map(stat => stat[0]);
+            const reductionData = dailyStats.map(stat => stat[1]);
+            const pointsData = dailyStats.map(stat => stat[2]);
+
+            window.dailyChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '减排量 (g)',
+                            data: reductionData,
+                            borderColor: 'rgba(74, 222, 128, 1)',
+                            backgroundColor: 'rgba(74, 222, 128, 0.1)',
+                            tension: 0.4
+                        },
+                        {
+                            label: '积分',
+                            data: pointsData,
+                            borderColor: 'rgba(59, 130, 246, 1)',
+                            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
