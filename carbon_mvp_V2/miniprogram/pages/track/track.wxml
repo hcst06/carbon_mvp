@@ -1,0 +1,66 @@
+<view class="container">
+  <view class="header">
+    <text class="title">出行轨迹</text>
+    <text class="subtitle">记录您的绿色出行轨迹</text>
+  </view>
+
+  <view class="map-container">
+    <map 
+      class="map" 
+      longitude="{{longitude}}" 
+      latitude="{{latitude}}" 
+      scale="16" 
+      polyline="{{polyline}}" 
+      markers="{{markers}}"
+      show-location
+    ></map>
+  </view>
+
+  <view class="status-section">
+    <view class="status-item">
+      <text class="status-label">距离</text>
+      <text class="status-value">{{distance}} km</text>
+    </view>
+    <view class="status-item">
+      <text class="status-label">时间</text>
+      <text class="status-value">{{time}} min</text>
+    </view>
+    <view class="status-item">
+      <text class="status-label">速度</text>
+      <text class="status-value">{{speed}} km/h</text>
+    </view>
+  </view>
+
+  <view class="control-section">
+    <button 
+      wx:if="{{!isRecording}}" 
+      class="control-btn start" 
+      bindtap="startRecording"
+    >
+      开始记录
+    </button>
+    <view wx:else class="control-buttons">
+      <button class="control-btn pause" bindtap="pauseRecording">
+        {{isPaused ? '继续' : '暂停'}}
+      </button>
+      <button class="control-btn stop" bindtap="stopRecording">
+        结束
+      </button>
+    </view>
+  </view>
+
+  <view class="mode-section">
+    <text class="mode-label">出行方式</text>
+    <view class="mode-picker">
+      <picker range="{{modes}}" value="{{modeIndex}}" bindchange="bindModeChange">
+        <view class="picker">
+          {{modes[modeIndex]}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="tips">
+    <text>💡 提示：请确保开启位置权限，以获得准确的轨迹记录</text>
+  </view>
+</view>

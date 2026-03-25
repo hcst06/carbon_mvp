@@ -1,0 +1,100 @@
+.container {
+  padding: 30rpx;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #065f46;
+  margin-bottom: 10rpx;
+}
+
+.subtitle {
+  display: block;
+  font-size: 26rpx;
+  color: #6b7280;
+}
+
+.records-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.record-card {
+  background-color: white;
+  border-radius: 16rpx;
+  overflow: hidden;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+}
+
+.record-mode {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #065f46;
+}
+
+.record-date {
+  font-size: 24rpx;
+  color: #6b7280;
+}
+
+.record-body {
+  padding: 20rpx;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15rpx;
+}
+
+.record-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.record-label {
+  font-size: 24rpx;
+  color: #6b7280;
+  margin-bottom: 5rpx;
+}
+
+.record-value {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #374151;
+}
+
+.text-primary {
+  color: #4ade80;
+}
+
+.empty {
+  text-align: center;
+  padding: 100rpx 0;
+}
+
+.empty-icon {
+  width: 200rpx;
+  height: 200rpx;
+  margin-bottom: 30rpx;
+}
+
+.empty-text {
+  display: block;
+  font-size: 28rpx;
+  color: #9ca3af;
+}

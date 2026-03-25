@@ -1,0 +1,85 @@
+<view class="container">
+  <view class="header">
+    <text class="title">成就中心</text>
+    <text class="subtitle">完成任务，获得成就，赢取积分奖励</text>
+  </view>
+
+  <view class="tabs">
+    <view class="tab {{activeTab === 'achievements' ? 'active' : ''}}" bindtap="switchTab('achievements')">成就</view>
+    <view class="tab {{activeTab === 'tasks' ? 'active' : ''}}" bindtap="switchTab('tasks')">任务</view>
+  </view>
+
+  <!-- 成就列表 -->
+  <view wx:if="{{activeTab === 'achievements'}}">
+    <view class="section-title">已获得成就</view>
+    <view class="achievement-list">
+      <view wx:for="{{achievedAchievements}}" wx:key="id" class="achievement-card achieved">
+        <view class="achievement-icon">
+          <text>{{item.emoji}}</text>
+        </view>
+        <view class="achievement-info">
+          <text class="achievement-name">{{item.name}}</text>
+          <text class="achievement-desc">{{item.description}}</text>
+          <text class="achievement-reward">奖励: {{item.reward}} 积分</text>
+        </view>
+        <view class="achievement-status achieved">已获得</view>
+      </view>
+    </view>
+
+    <view class="section-title">未获得成就</view>
+    <view class="achievement-list">
+      <view wx:for="{{unachievedAchievements}}" wx:key="id" class="achievement-card unachieved">
+        <view class="achievement-icon">
+          <text>{{item.emoji}}</text>
+        </view>
+        <view class="achievement-info">
+          <text class="achievement-name">{{item.name}}</text>
+          <text class="achievement-desc">{{item.description}}</text>
+          <text class="achievement-reward">奖励: {{item.reward}} 积分</text>
+        </view>
+        <view class="achievement-status unachieved">未获得</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 任务列表 -->
+  <view wx:if="{{activeTab === 'tasks'}}">
+    <view class="section-title">进行中任务</view>
+    <view class="task-list">
+      <view wx:for="{{activeTasks}}" wx:key="id" class="task-card active">
+        <view class="task-icon">
+          <text>{{item.emoji}}</text>
+        </view>
+        <view class="task-info">
+          <text class="task-name">{{item.name}}</text>
+          <text class="task-desc">{{item.description}}</text>
+          <view class="task-progress">
+            <view class="progress-bar">
+              <view class="progress-fill" style="width: {{item.progress}}%"></view>
+            </view>
+            <text class="progress-text">{{item.current}}/{{item.target}}</text>
+          </view>
+          <text class="task-reward">奖励: {{item.reward}} 积分</text>
+        </view>
+        <button class="task-button" bindtap="claimTask" data-id="{{item.id}}">
+          {{item.progress >= 100 ? '领取奖励' : '继续任务'}}
+        </button>
+      </view>
+    </view>
+
+    <view class="section-title">已完成任务</view>
+    <view class="task-list">
+      <view wx:for="{{completedTasks}}" wx:key="id" class="task-card completed">
+        <view class="task-icon">
+          <text>{{item.emoji}}</text>
+        </view>
+        <view class="task-info">
+          <text class="task-name">{{item.name}}</text>
+          <text class="task-desc">{{item.description}}</text>
+          <text class="task-reward">奖励: {{item.reward}} 积分</text>
+        </view>
+        <view class="task-status">已完成</view>
+      </view>
+    </view>
+  </view>
+</view>

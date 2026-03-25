@@ -1,0 +1,231 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  padding: 40rpx;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40rpx;
+}
+
+.title {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #16a34a;
+  margin-bottom: 10rpx;
+}
+
+.subtitle {
+  font-size: 24rpx;
+  color: #6b7280;
+}
+
+.tabs {
+  display: flex;
+  background-color: white;
+  border-radius: 20rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: 20rpx;
+  font-size: 28rpx;
+  color: #6b7280;
+  border-bottom: 4rpx solid transparent;
+}
+
+.tab.active {
+  color: #16a34a;
+  border-bottom-color: #16a34a;
+  font-weight: bold;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #374151;
+  margin-bottom: 20rpx;
+  margin-top: 40rpx;
+}
+
+.achievement-list,
+.task-list {
+  margin-bottom: 40rpx;
+}
+
+.achievement-card {
+  display: flex;
+  background-color: white;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  align-items: center;
+}
+
+.achievement-card.achieved {
+  border-left: 8rpx solid #4ade80;
+}
+
+.achievement-card.unachieved {
+  border-left: 8rpx solid #e5e7eb;
+  opacity: 0.7;
+}
+
+.achievement-icon {
+  width: 100rpx;
+  height: 100rpx;
+  margin-right: 30rpx;
+  background-color: #f0f9ff;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60rpx;
+}
+
+.achievement-info {
+  flex: 1;
+}
+
+.achievement-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #374151;
+  margin-bottom: 5rpx;
+}
+
+.achievement-desc {
+  font-size: 24rpx;
+  color: #6b7280;
+  margin-bottom: 10rpx;
+  line-height: 1.4;
+}
+
+.achievement-reward {
+  font-size: 24rpx;
+  color: #16a34a;
+  font-weight: bold;
+}
+
+.achievement-status {
+  padding: 10rpx 20rpx;
+  border-radius: 20rpx;
+  font-size: 20rpx;
+  font-weight: bold;
+}
+
+.achievement-status.achieved {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+
+.achievement-status.unachieved {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.task-card {
+  display: flex;
+  background-color: white;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  align-items: center;
+}
+
+.task-card.active {
+  border-left: 8rpx solid #3b82f6;
+}
+
+.task-card.completed {
+  border-left: 8rpx solid #4ade80;
+  opacity: 0.8;
+}
+
+.task-icon {
+  width: 80rpx;
+  height: 80rpx;
+  margin-right: 30rpx;
+  background-color: #f0f9ff;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+}
+
+.task-info {
+  flex: 1;
+}
+
+.task-name {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #374151;
+  margin-bottom: 5rpx;
+}
+
+.task-desc {
+  font-size: 24rpx;
+  color: #6b7280;
+  margin-bottom: 15rpx;
+  line-height: 1.4;
+}
+
+.task-progress {
+  margin-bottom: 15rpx;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 10rpx;
+  background-color: #e5e7eb;
+  border-radius: 5rpx;
+  margin-bottom: 5rpx;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #10b981);
+  border-radius: 5rpx;
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: 20rpx;
+  color: #6b7280;
+  text-align: right;
+}
+
+.task-reward {
+  font-size: 24rpx;
+  color: #16a34a;
+  font-weight: bold;
+}
+
+.task-button {
+  padding: 15rpx 30rpx;
+  background: linear-gradient(135deg, #3b82f6 0%, #10b981 100%);
+  color: white;
+  border: none;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  font-weight: bold;
+  min-width: 150rpx;
+}
+
+.task-status {
+  padding: 10rpx 20rpx;
+  background-color: #dcfce7;
+  color: #16a34a;
+  border-radius: 20rpx;
+  font-size: 20rpx;
+  font-weight: bold;
+}

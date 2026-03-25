@@ -1,0 +1,105 @@
+.container {
+  padding: 30rpx;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 30rpx;
+}
+
+.title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: bold;
+  color: #065f46;
+  margin-bottom: 10rpx;
+}
+
+.subtitle {
+  display: block;
+  font-size: 26rpx;
+  color: #6b7280;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20rpx;
+  margin-bottom: 30rpx;
+}
+
+.stat-card {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border-radius: 16rpx;
+  padding: 30rpx;
+  text-align: center;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.stat-label {
+  display: block;
+  font-size: 24rpx;
+  color: #6b7280;
+  margin-bottom: 10rpx;
+}
+
+.stat-value {
+  display: block;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #065f46;
+}
+
+.text-primary {
+  color: #4ade80;
+}
+
+.chart-section {
+  background-color: white;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.chart-title {
+  display: block;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #065f46;
+  margin-bottom: 20rpx;
+}
+
+.chart-container {
+  height: 400rpx;
+  width: 100%;
+}
+
+.chart {
+  width: 100%;
+  height: 100%;
+}
+
+.refresh-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #4ade80 0%, #16a34a 100%);
+  color: white;
+  border: none;
+  border-radius: 50rpx;
+  padding: 30rpx;
+  font-size: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20rpx;
+}
+
+.refresh-btn:active {
+  opacity: 0.8;
+}
+
+.refresh-icon {
+  width: 40rpx;
+  height: 40rpx;
+  margin-right: 15rpx;
+}

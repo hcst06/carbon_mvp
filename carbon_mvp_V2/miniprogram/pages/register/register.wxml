@@ -1,0 +1,56 @@
+<view class="register-container">
+  <view class="logo-section">
+    <view class="logo">🌱</view>
+    <text class="app-name">碳行益农</text>
+    <text class="app-slogan">绿色出行，助力乡村振兴</text>
+  </view>
+
+  <view class="form-section">
+    <view class="input-group">
+      <view class="input-icon">👤</view>
+      <input 
+        class="input-field" 
+        placeholder="请输入用户名" 
+        value="{{username}}"
+        bindinput="bindUsernameInput"
+      />
+    </view>
+
+    <view class="input-group">
+      <view class="input-icon">📧</view>
+      <input 
+        class="input-field" 
+        placeholder="请输入邮箱" 
+        value="{{email}}"
+        bindinput="bindEmailInput"
+      />
+    </view>
+
+    <view class="input-group">
+      <view class="input-icon">🔒</view>
+      <input 
+        class="input-field" 
+        placeholder="请输入密码" 
+        password 
+        value="{{password}}"
+        bindinput="bindPasswordInput"
+      />
+    </view>
+
+    <button class="register-btn" bindtap="register">注册</button>
+
+    <view class="divider">
+      <text>或</text>
+    </view>
+
+    <button class="wechat-login-btn" open-type="getUserInfo" bindgetuserinfo="wechatLogin">
+      <view class="wechat-icon">💬</view>
+      <text>微信登录</text>
+    </button>
+
+    <view class="login-link">
+      <text>已有账号？</text>
+      <text class="link-text" bindtap="goToLogin">立即登录</text>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,131 @@
+.container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+  padding: 40rpx;
+}
+
+.card {
+  background-color: white;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40rpx;
+}
+
+.icon {
+  width: 60rpx;
+  height: 60rpx;
+  margin-right: 20rpx;
+}
+
+.title text {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #16a34a;
+}
+
+.form {
+  margin-bottom: 40rpx;
+}
+
+.input-group {
+  margin-bottom: 30rpx;
+}
+
+.label {
+  display: block;
+  font-size: 28rpx;
+  color: #374151;
+  margin-bottom: 10rpx;
+}
+
+.input {
+  width: 100%;
+  padding: 20rpx;
+  border: 2rpx solid #e5e7eb;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+}
+
+.picker {
+  width: 100%;
+  padding: 20rpx;
+  border: 2rpx solid #e5e7eb;
+  border-radius: 10rpx;
+  font-size: 28rpx;
+  background-color: #f9fafb;
+}
+
+.calculate-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #4ade80 0%, #16a34a 100%);
+  color: white;
+  border: none;
+  border-radius: 10rpx;
+  padding: 25rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  margin-top: 20rpx;
+}
+
+.calculate-btn:active {
+  opacity: 0.8;
+}
+
+.result {
+  margin-top: 40rpx;
+  padding-top: 40rpx;
+  border-top: 2rpx solid #e5e7eb;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20rpx;
+  padding: 20rpx;
+  background-color: #f9fafb;
+  border-radius: 10rpx;
+}
+
+.result-label {
+  font-size: 28rpx;
+  color: #6b7280;
+}
+
+.result-value {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #374151;
+}
+
+.text-primary {
+  color: #16a34a;
+}
+
+.blockchain-info {
+  margin-top: 30rpx;
+  padding: 20rpx;
+  background-color: #f0f9ff;
+  border-radius: 10rpx;
+  border-left: 4rpx solid #3b82f6;
+}
+
+.blockchain-label {
+  display: block;
+  font-size: 24rpx;
+  color: #6b7280;
+  margin-bottom: 10rpx;
+}
+
+.blockchain-hash {
+  font-size: 20rpx;
+  color: #374151;
+  word-break: break-all;
+  line-height: 1.5;
+  font-family: monospace;
+}
