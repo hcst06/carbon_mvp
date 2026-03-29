@@ -1,0 +1,201 @@
+.login-container {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top right, rgba(34, 197, 94, 0.2), transparent 24%),
+    linear-gradient(160deg, #14532d 0%, #16a34a 48%, #86efac 100%);
+  padding: 48rpx 28rpx 60rpx;
+}
+
+.hero-card {
+  padding: 46rpx 30rpx;
+  text-align: center;
+}
+
+.brand-mark {
+  width: 148rpx;
+  height: 148rpx;
+  margin: 0 auto 26rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fef3c7, #fde68a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #14532d;
+  font-size: 60rpx;
+  font-weight: 700;
+  box-shadow: 0 18rpx 36rpx rgba(0, 0, 0, 0.14);
+}
+
+.app-name {
+  display: block;
+  color: #ffffff;
+  font-size: 50rpx;
+  font-weight: 700;
+  margin-bottom: 10rpx;
+}
+
+.app-slogan {
+  display: block;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 28rpx;
+}
+
+.form-section {
+  background-color: rgba(255, 255, 255, 0.97);
+  border-radius: 34rpx;
+  padding: 42rpx 32rpx;
+  box-shadow: 0 22rpx 44rpx rgba(15, 23, 42, 0.16);
+}
+
+.section-header {
+  margin-bottom: 30rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #14532d;
+  margin-bottom: 8rpx;
+}
+
+.section-subtitle {
+  display: block;
+  font-size: 24rpx;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.input-group {
+  margin-bottom: 24rpx;
+}
+
+.input-label {
+  display: block;
+  font-size: 24rpx;
+  color: #374151;
+  margin-bottom: 12rpx;
+  font-weight: 600;
+}
+
+.input-field {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 24rpx 22rpx;
+  border: 2rpx solid #dbe4dd;
+  border-radius: 20rpx;
+  font-size: 28rpx;
+  background-color: #f8faf8;
+}
+
+.login-btn,
+.wechat-login-btn {
+  width: 100%;
+  border: none;
+  border-radius: 999rpx;
+  padding: 26rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.login-btn {
+  margin-top: 10rpx;
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+}
+
+.wechat-login-btn {
+  background: linear-gradient(135deg, #07c160, #34d399);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 34rpx 0 28rpx;
+  color: #9ca3af;
+  font-size: 22rpx;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 2rpx;
+  background-color: #e5e7eb;
+}
+
+.divider text {
+  margin: 0 18rpx;
+}
+
+.wechat-panel {
+  background: linear-gradient(180deg, #f7fff9, #f1fbf3);
+  border-radius: 26rpx;
+  padding: 26rpx 22rpx 22rpx;
+}
+
+.wechat-profile-row {
+  display: flex;
+  gap: 20rpx;
+  align-items: flex-start;
+  margin-bottom: 18rpx;
+}
+
+.avatar-picker {
+  width: 132rpx;
+  height: 132rpx;
+  border-radius: 28rpx;
+  padding: 0;
+  border: none;
+  overflow: hidden;
+  background: transparent;
+  flex-shrink: 0;
+}
+
+.avatar-picker::after {
+  border: none;
+}
+
+.avatar-image,
+.avatar-placeholder {
+  width: 132rpx;
+  height: 132rpx;
+  border-radius: 28rpx;
+}
+
+.avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+  color: #166534;
+  font-size: 24rpx;
+  font-weight: 700;
+}
+
+.nickname-box {
+  flex: 1;
+}
+
+.wechat-tip {
+  margin-bottom: 18rpx;
+  padding: 18rpx 20rpx;
+  border-radius: 18rpx;
+  background-color: #ecfdf5;
+  color: #15803d;
+  font-size: 22rpx;
+  line-height: 1.5;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 30rpx;
+  font-size: 26rpx;
+  color: #6b7280;
+}
+
+.link-text {
+  color: #16a34a;
+  font-weight: 700;
+  margin-left: 10rpx;
+}

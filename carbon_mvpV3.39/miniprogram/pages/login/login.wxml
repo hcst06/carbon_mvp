@@ -1,0 +1,74 @@
+<view class="login-container">
+  <view class="hero-card">
+    <view class="brand-mark">C</view>
+    <text class="app-name">碳行益农</text>
+    <text class="app-slogan">绿色出行，助力乡村振兴</text>
+  </view>
+
+  <view class="form-section">
+    <view class="section-header">
+      <text class="section-title">账号登录</text>
+      <text class="section-subtitle">支持账号密码，也支持微信快捷登录。</text>
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">用户名</text>
+      <input
+        class="input-field"
+        placeholder="请输入用户名"
+        value="{{username}}"
+        bindinput="bindUsernameInput"
+      />
+    </view>
+
+    <view class="input-group">
+      <text class="input-label">密码</text>
+      <input
+        class="input-field"
+        placeholder="请输入密码"
+        password
+        value="{{password}}"
+        bindinput="bindPasswordInput"
+      />
+    </view>
+
+    <button class="login-btn" bindtap="login">账号登录</button>
+
+    <view class="divider">
+      <text>或使用微信快捷登录</text>
+    </view>
+
+    <view class="wechat-panel">
+      <view class="wechat-profile-row">
+        <button class="avatar-picker" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+          <image wx:if="{{avatarUrl}}" class="avatar-image" src="{{avatarUrl}}" mode="aspectFill"></image>
+          <view wx:else class="avatar-placeholder">头像</view>
+        </button>
+
+        <view class="nickname-box">
+          <text class="input-label">微信昵称</text>
+          <input
+            class="input-field"
+            type="nickname"
+            placeholder="点击输入微信昵称"
+            value="{{wechatNickname}}"
+            bindinput="bindWechatNicknameInput"
+          />
+        </view>
+      </view>
+
+      <view class="wechat-tip">
+        <text>登录成功后会自动尝试同步微信运动步数。</text>
+      </view>
+
+      <button class="wechat-login-btn" bindtap="wechatLogin" loading="{{syncingWeRun}}">
+        微信快捷登录
+      </button>
+    </view>
+
+    <view class="register-link">
+      <text>还没有账号？</text>
+      <text class="link-text" bindtap="goToRegister">立即注册</text>
+    </view>
+  </view>
+</view>

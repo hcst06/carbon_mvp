@@ -1,0 +1,60 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/calculate/calculate",
+    "pages/records/records",
+    "pages/exchange/exchange",
+    "pages/stats/stats",
+    "pages/login/login",
+    "pages/register/register",
+    "pages/profile/profile",
+    "pages/achievements/achievements",
+    "pages/track/track"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#4ade80",
+    "navigationBarTitleText": "碳行益农",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f0fdf4"
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#4ade80",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/calculate/calculate",
+        "text": "计算"
+      },
+      {
+        "pagePath": "pages/track/track",
+        "text": "轨迹"
+      },
+      {
+        "pagePath": "pages/achievements/achievements",
+        "text": "成就"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于记录您的绿色出行轨迹，计算碳减排量"
+    }
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "downloadFile": 10000
+  },
+  "debug": true,
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

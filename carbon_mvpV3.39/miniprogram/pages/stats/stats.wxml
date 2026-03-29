@@ -1,0 +1,44 @@
+<view class="container">
+  <view class="header">
+    <text class="title">数据统计</text>
+    <text class="subtitle">查看你的减排、积分和出行表现。</text>
+  </view>
+
+  <view class="stats-grid">
+    <view class="stat-card">
+      <text class="stat-label">总减排量</text>
+      <text class="stat-value">{{stats.total_reduction}} g</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-label">总积分</text>
+      <text class="stat-value text-primary">{{stats.total_points}}</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-label">出行次数</text>
+      <text class="stat-value">{{stats.total_trips}}</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-label">平均减排</text>
+      <text class="stat-value">{{stats.average_reduction}} g</text>
+    </view>
+  </view>
+
+  <view class="chart-section">
+    <text class="chart-title">按出行方式统计</text>
+    <view class="chart-container">
+      <canvas canvas-id="modeChart" class="chart"></canvas>
+    </view>
+  </view>
+
+  <view class="chart-section">
+    <text class="chart-title">最近 7 天减排趋势</text>
+    <view class="chart-container">
+      <canvas canvas-id="dailyChart" class="chart"></canvas>
+    </view>
+  </view>
+
+  <button class="refresh-btn" bindtap="loadStats">
+    <view class="refresh-icon">SYNC</view>
+    <text>刷新统计数据</text>
+  </button>
+</view>
